@@ -23,6 +23,15 @@ declare namespace hs {
     function show(this: void, message: string, duration?: number): void
   }
 
+  namespace keycodes {
+    function methods(this: void): string[]
+    function setMethod(this: void, method: string): boolean
+  }
+
+  namespace hotkey {
+    function bind(this: void, mods: string[], key: string, fn: (this: void) => void): void
+  }
+
   namespace pathwatcher {
     /** @noSelf */
     function _new(this: void, path: string, fn: (this: void, files: string[]) => void): PathWatcher

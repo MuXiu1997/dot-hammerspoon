@@ -7,4 +7,4 @@ default:
   @just --choose -u
 
 sync:
-  rsync -av --delete --include="*.lua" --include="internal_scripts" --include="internal_scripts/*" --exclude='*' {{ project_dir }}/ ~/.config/hammerspoon
+  pnpm run build && rsync -av --delete --include="*.lua" --include="internal_scripts" --include="internal_scripts/*" --exclude='*' {{ project_dir }}/dist/ ~/.config/hammerspoon

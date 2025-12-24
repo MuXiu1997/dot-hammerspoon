@@ -1,12 +1,12 @@
 {
-  "name": "hammerspoon",
+  "name": "dot-hammerspoon",
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@10.23.0",
   "description": "My Hammerspoon configuration.",
   "author": "MuXiu1997 <muxiu1997@muxiu1997.com> (https://github.com/MuXiu1997/)",
   "license": "MIT",
-  "homepage": "https://github.com/MuXiu1997/hammerspoon#readme",
+  "homepage": "https://github.com/MuXiu1997/dot-hammerspoon#readme",
   "keywords": [],
   "engines": {
     "node": "22.21.1"

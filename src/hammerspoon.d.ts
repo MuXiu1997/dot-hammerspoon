@@ -1,5 +1,9 @@
 /** @noSelfInFile */
 
+/** @noResolution */
+declare module 'hs.ipc' {
+}
+
 declare namespace hs {
   const configdir: string
 

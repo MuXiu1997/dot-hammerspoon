@@ -3,6 +3,7 @@
 import * as keyboard from './keyboard'
 import * as reloadConfig from './reload-config'
 import * as wezterm from './wezterm'
+import 'hs.ipc'
 
 reloadConfig.apply()
 keyboard.apply()

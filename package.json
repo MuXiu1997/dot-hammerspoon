@@ -9,7 +9,7 @@
   "homepage": "https://github.com/MuXiu1997/dot-hammerspoon#readme",
   "keywords": [],
   "engines": {
-    "node": "22.21.1"
+    "node": ">=22"
   },
   "scripts": {
     "build": "tstl",

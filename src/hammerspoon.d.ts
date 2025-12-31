@@ -37,19 +37,56 @@ declare namespace hs {
   namespace timer {
     function secondsSinceEpoch(this: void): number
     function waitUntil(this: void, predicate: (this: void) => boolean, action: (this: void) => void, checkInterval?: number): void
+    function doAfter(this: void, seconds: number, fn: (this: void) => void): Timer
+
+    interface Timer {
+      stop: (this: Timer) => Timer
+      start: (this: Timer) => Timer
+      running: (this: Timer) => boolean
+    }
+  }
+
+  namespace window {
+    function allWindows(this: void): Window[]
+    function focusedWindow(this: void): Window | undefined
+    function get(this: void, hint: string): Window | undefined
+    function find(this: void, hint: string): Window | undefined
+  }
+
+  namespace chooser {
+    /** @noSelf */
+    function _new(this: void, completionFn: (this: void, result: Choice | undefined) => void): Chooser
+    export { _new as new }
+
+    interface Choice {
+      text: string
+      subText?: string
+      image?: any
+      [key: string]: any
+    }
+
+    interface Chooser {
+      show: (this: Chooser) => Chooser
+      hide: (this: Chooser) => Chooser
+      choices: (this: Chooser, choices: Choice[] | ((this: void) => Choice[])) => Chooser
+      placeholderText: (this: Chooser, text: string) => Chooser
+      searchSubText: (this: Chooser, enable: boolean) => Chooser
+    }
   }
 
   namespace application {
     interface Application {
-      isRunning: () => boolean
-      mainWindow: () => Window | undefined
-      focusedWindow: () => Window | undefined
-      allWindows: () => Window[]
-      activate: () => boolean
-      unhide: () => boolean
-      setFrontmost: (allWindows?: boolean) => boolean
-      isFrontmost: () => boolean
-      hide: () => boolean
+      isRunning: (this: Application) => boolean
+      mainWindow: (this: Application) => Window | undefined
+      focusedWindow: (this: Application) => Window | undefined
+      allWindows: (this: Application) => Window[]
+      activate: (this: Application) => boolean
+      unhide: (this: Application) => boolean
+      setFrontmost: (this: Application, allWindows?: boolean) => boolean
+      isFrontmost: (this: Application) => boolean
+      hide: (this: Application) => boolean
+      title: (this: Application) => string
+      name: (this: Application) => string
     }
     function get(this: void, hint: string): Application | undefined
     function frontmostApplication(this: void): Application | undefined
@@ -57,39 +94,51 @@ declare namespace hs {
   }
 
   interface Window {
-    focus: () => boolean
-    raise: () => Window
-    screen: () => any
-    frame: () => { x: number, y: number, w: number, h: number }
-    setFrame: (frame: { x: number, y: number, w: number, h: number }) => Window
-    isStandard: () => boolean
-    isMinimized: () => boolean
-    unminimize: () => Window
+    focus: (this: Window) => boolean
+    raise: (this: Window) => Window
+    screen: (this: Window) => any
+    frame: (this: Window) => { x: number, y: number, w: number, h: number }
+    setFrame: (this: Window, frame: { x: number, y: number, w: number, h: number }) => Window
+    isStandard: (this: Window) => boolean
+    isMinimized: (this: Window) => boolean
+    unminimize: (this: Window) => Window
+    title: (this: Window) => string
+    application: (this: Window) => hs.application.Application
   }
 
   namespace eventtap {
     export interface EventTap {
-      start: () => EventTap
-      stop: () => EventTap
+      start: (this: EventTap) => EventTap
+      stop: (this: EventTap) => EventTap
     }
     export namespace event {
       const types: {
         flagsChanged: number
       }
       interface Event {
-        getFlags: () => {
+        getFlags: (this: Event) => {
           cmd?: boolean
           ctrl?: boolean
           shift?: boolean
           fn?: boolean
           alt?: boolean
         }
-        getKeyCode: () => number
+        getKeyCode: (this: Event) => number
       }
     }
     /** @noSelf */
     function _new(this: void, types: number[], fn: (this: void, event: event.Event) => boolean | void): EventTap
     export { _new as new }
+
+    /** @noSelf */
+    export function keyStroke(this: void, mods: string[], key: string, delay?: number): void
+  }
+
+  namespace osascript {
+    /** @noSelf */
+    function applescript(this: void, script: string): LuaMultiReturn<[boolean, any, { NSAppleScriptErrorBriefMessage?: string, NSAppleScriptErrorMessage?: string } | undefined]>
+    /** @noSelf */
+    function javascript(this: void, script: string): LuaMultiReturn<[boolean, any, any]>
   }
 
   namespace keycodes {
@@ -99,6 +148,20 @@ declare namespace hs {
 
   namespace hotkey {
     function bind(this: void, mods: string[], key: string, fn: (this: void) => void): void
+
+    namespace modal {
+      /** @noSelf */
+      function _new(this: void, mods?: string[], key?: string, message?: string): Modal
+      export { _new as new }
+
+      interface Modal {
+        enter: (this: Modal) => void
+        exit: (this: Modal) => void
+        bind: (this: Modal, mods: string[], key: string, pressedfn?: (this: void) => void, releasedfn?: (this: void) => void, repeatfn?: (this: void) => void) => Modal
+        entered?: (this: void) => void
+        exited?: (this: void) => void
+      }
+    }
   }
 
   namespace pathwatcher {

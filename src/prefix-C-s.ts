@@ -3,7 +3,8 @@
 export const moduleName = 'prefix-C-s'
 export const log = hs.logger.new(moduleName, 'info')
 
-const prefixModal = hs.hotkey.modal.new(['ctrl'], 's')
+const prefixModal = hs.hotkey.modal.new()
+const prefixHotkey = hs.hotkey.bind(['ctrl'], 's', () => prefixModal.enter())
 
 let alertId: string | undefined
 let timeoutTimer: hs.timer.Timer | undefined
@@ -41,8 +42,12 @@ prefixModal.exited = function () {
 }
 
 prefixModal.bind(['ctrl'], 's', () => {
-  hs.eventtap.keyStroke(['ctrl'], 's')
   prefixModal.exit()
+  // Temporarily disable the entry hotkey to prevent simulated keystrokes from triggering a loop
+  prefixHotkey.disable()
+  hs.eventtap.keyStroke(['ctrl'], 's')
+  // Delay re-enabling the entry hotkey
+  hs.timer.doAfter(0.1, () => prefixHotkey.enable())
 })
 
 prefixModal.bind([], 'c', () => {

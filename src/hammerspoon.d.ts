@@ -147,7 +147,13 @@ declare namespace hs {
   }
 
   namespace hotkey {
-    function bind(this: void, mods: string[], key: string, fn: (this: void) => void): void
+    interface Hotkey {
+      enable: (this: Hotkey) => Hotkey
+      disable: (this: Hotkey) => Hotkey
+      delete: (this: Hotkey) => void
+    }
+
+    function bind(this: void, mods: string[], key: string, fn: (this: void) => void): Hotkey
 
     namespace modal {
       /** @noSelf */

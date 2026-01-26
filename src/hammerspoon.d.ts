@@ -144,6 +144,8 @@ declare namespace hs {
   namespace keycodes {
     function methods(this: void): string[]
     function setMethod(this: void, method: string): boolean
+    function currentMethod(this: void): string | undefined
+    function currentSourceID(this: void): string | undefined
   }
 
   namespace hotkey {

@@ -22,6 +22,7 @@
 ### Workflow
 
 1. **Clone and Setup**:
+
    ```bash
    git clone https://github.com/MuXiu1997/dot-hammerspoon.git .
    bun install

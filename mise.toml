@@ -1,0 +1,33 @@
+[tools]
+bun = "1.3.8"
+
+[env]
+_.path = [ "{{ config_root }}/node_modules/.bin", ]
+
+[tasks.install]
+description = "Install dependencies"
+run = "bun install"
+
+[tasks.dev]
+description = "Run tstl in watch mode"
+run = "bun --bun run dev"
+
+[tasks.build]
+description = "Build the project"
+run = "bun --bun run build"
+
+[tasks.lint]
+description = "Lint and type check"
+run = "bun --bun run lint"
+
+[tasks.clean]
+description = "Clean dist directory"
+run = "rm -rf dist"
+
+[tasks."local:deploy"]
+description = "Build and deploy configuration to local ~/.config/hammerspoon"
+run = [
+  { task = "clean" },
+  { task = "build" },
+  "rsync -av --delete --include='*.lua' --include='internal_scripts' --include='internal_scripts/*' --exclude='*' dist/ ~/.config/hammerspoon",
+]
